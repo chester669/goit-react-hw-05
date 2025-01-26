@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import axios from "axios";
 
@@ -8,20 +8,33 @@ export default function MoviesPage() {
 
   const searchQuery = searchParams.get("query") || "";
 
-  async function handleSearch(event) {
+  useEffect(() => {
+    if (!searchQuery) return;
+
+    async function fetchMovies() {
+      const API_KEY = "d3741c476d21774c827d472c8a08fd1f";
+      try {
+        const response = await axios.get(
+          `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${searchQuery}`
+        );
+        setMovies(response.data.results);
+      } catch (error) {
+        console.error("Error fetching movies:", error);
+      }
+    }
+
+    fetchMovies();
+  }, [searchQuery]);
+
+  const handleSearch = (event) => {
     event.preventDefault();
     const form = event.target;
     const query = form.elements.query.value.trim();
 
     if (query) {
-      const API_KEY = "d3741c476d21774c827d472c8a08fd1f";
-      const response = await axios.get(
-        `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${query}`
-      );
-      setMovies(response.data.results);
       setSearchParams({ query });
     }
-  }
+  };
 
   return (
     <div>

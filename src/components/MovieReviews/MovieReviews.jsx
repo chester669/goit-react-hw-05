@@ -19,20 +19,17 @@ export default function MovieReviews() {
   }, [movieId]);
 
   return (
-    <div className={styles.reviewsContainer}>
-      <h2 className={styles.title}>Reviews</h2>
+    <div className={styles["reviews-container"]}>
       {reviews.length > 0 ? (
-        <ul className={styles.reviewList}>
-          {reviews.map((review) => (
-            <li key={review.id} className={styles.reviewCard}>
-              <p className={styles.reviewContent}>
-                <strong>{review.author}:</strong> {review.content}
-              </p>
-            </li>
-          ))}
-        </ul>
+        reviews.map((review) => (
+          <div key={review.id} className={styles["review-card"]}>
+            <h4>{review.author}</h4>
+            <p>{review.content}</p>
+            <p className="author">– {review.author}</p>
+          </div>
+        ))
       ) : (
-        <p className={styles.noReviews}>No reviews available.</p>
+        <p>No reviews available.</p>
       )}
     </div>
   );

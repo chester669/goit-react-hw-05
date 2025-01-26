@@ -5,7 +5,7 @@ import {
   useNavigate,
   useLocation,
 } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 
 export default function MovieDetailsPage() {
@@ -14,7 +14,7 @@ export default function MovieDetailsPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const backLink = location.state?.from || "/movies";
+  const backLinkRef = useRef(location.state?.from || "/movies");
 
   useEffect(() => {
     async function fetchMovieDetails() {
@@ -31,7 +31,8 @@ export default function MovieDetailsPage() {
 
   return (
     <div>
-      <button onClick={() => navigate(backLink)}>Go Back</button>
+      {}
+      <button onClick={() => navigate(backLinkRef.current)}>Go Back</button>
       <h1>
         {movie.title} ({new Date(movie.release_date).getFullYear()})
       </h1>
@@ -42,11 +43,11 @@ export default function MovieDetailsPage() {
       <p>{movie.overview}</p>
       <p>Genres: {movie.genres.map((genre) => genre.name).join(", ")}</p>
       <nav>
-        <Link to="cast" state={{ from: backLink }}>
+        <Link to="cast" state={{ from: backLinkRef.current }}>
           Cast
         </Link>{" "}
         |{" "}
-        <Link to="reviews" state={{ from: backLink }}>
+        <Link to="reviews" state={{ from: backLinkRef.current }}>
           Reviews
         </Link>
       </nav>
