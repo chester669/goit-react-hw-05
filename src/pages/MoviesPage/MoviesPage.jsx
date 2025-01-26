@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import axios from "axios";
+import MovieList from "../../components/MovieList/MovieList";
 
 export default function MoviesPage() {
   const [movies, setMovies] = useState([]);
@@ -43,13 +44,9 @@ export default function MoviesPage() {
         <input type="text" name="query" defaultValue={searchQuery} />
         <button type="submit">Search</button>
       </form>
-      <ul>
-        {movies.map((movie) => (
-          <li key={movie.id}>
-            <Link to={`/movies/${movie.id}`}>{movie.title}</Link>
-          </li>
-        ))}
-      </ul>
+
+      {}
+      <MovieList movies={movies} />
     </div>
   );
 }
